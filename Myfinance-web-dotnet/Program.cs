@@ -1,7 +1,12 @@
+using Myfinance_web_dotnet.Mappers;
+using MyFinance_web_dotnet.Infrastruture;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+builder.Services.AddDbContext<MyFinanceDbContext>();
+builder.Services.AddAutoMapper(typeof(PlanoContaMap));
 
 var app = builder.Build();
 
