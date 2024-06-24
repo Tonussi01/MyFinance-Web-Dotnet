@@ -1,0 +1,31 @@
+﻿@model PlanoContaModel
+
+@{
+    ViewData["Title"] = (Model.Id > 0) ? "Editar Plano de Contas" : "Cadastro de Plano de Contas";
+}
+
+<h1>@ViewData["Title"]</h1>
+<form asp-controller="PlanoConta" asp-action="Salvar" method="post">
+    @Html.AntiForgeryToken()
+    <div class="container">
+        <div class="mb-3">
+            <label class="form-label">Descrição</label>
+            <input type="hidden" id="txtId" class="form-control" asp-for="Id" />
+            <input type="text" id="txtNome" class="form-control" asp-for="Descricao" />
+            <span asp-validation-for="Descricao" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label>@Html.RadioButtonFor(m => m.Tipo, "D") Despesa</label>
+            <label>@Html.RadioButtonFor(m => m.Tipo, "R") Receita</label>
+        </div>
+        <div class="mb-3">
+            <button type="submit" class="btn btn-primary btn-lg">Salvar</button>
+            <button type="button" class="btn btn-secondary btn-lg" onclick="Voltar()">Cancelar</button>
+        </div>
+    </div>
+</form>
+<script>
+    function Voltar() {
+        window.location.href = "/PlanoConta";
+    }
+</script>

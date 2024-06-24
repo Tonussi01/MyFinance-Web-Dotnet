@@ -1,30 +1,31 @@
 using Myfinance_web_dotnet.Mappers;
+using Myfinance_web_dotnet.Services;
 using MyFinance_web_dotnet.Infrastruture;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+// Configuração dos serviços
 builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<MyFinanceDbContext>();
-builder.Services.AddAutoMapper(typeof(PlanoContaMap));
+builder.Services.AddAutoMapper(typeof(PlanoContaMap), typeof(TransacaoMap));
+builder.Services.AddScoped<IPlanoContaService, PlanoContaService>();
+builder.Services.AddScoped<ITransacaoService, TransacaoService>();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+// Configuração do pipeline de requisição HTTP
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
-
 app.UseRouting();
-
 app.UseAuthorization();
 
+// Configuração do roteamento MVC
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
